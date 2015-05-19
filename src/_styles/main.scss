@@ -1,0 +1,46 @@
+h2 {
+  text-align: center;
+  margin: 5px auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.onLoggedOut > * {
+  width: 15%;
+  margin: 5px auto;
+  padding: 10px;
+  border: 6px double black;
+}
+.login {
+  background: #f90;
+}
+
+.register {
+  background: #9f0;
+}
+
+.register form > *, .login form > *, .login button {
+  display: block;
+  margin: 10px auto;
+}
+
+input[placeholder]{
+  font-weight:bold;
+  color: green;
+  text-align:center;
+
+}
+
+.login ::-webkit-input-placeholder {
+  color: #000;
+  text-shadow: 2px 2px 10px #f90,
+               0 0 10px #f90;
+}
+
+.register ::-webkit-input-placeholder {
+  color: #000;
+  text-shadow: 2px 2px 10px #9f0,
+               0 0 10px #9f0;
+}
