@@ -13,7 +13,7 @@ bower install
 
 # compile sass to css
 # ./node_modules/.bin/node-sass \
-   --output-style compressed \
+#   --output-style compressed \
 #   --source-map-embed \
 #   src/_styles/main.scss public/css/main.css
 
