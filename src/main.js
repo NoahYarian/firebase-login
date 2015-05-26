@@ -1,33 +1,36 @@
-var FIREBASE_URL = 'https://c9-auth-demo.firebaseio.com';
+var FIREBASE_URL = 'https://login-page-test.firebaseio.com';
 var fb = new Firebase(FIREBASE_URL);
 
 var $onLoggedOut = $('.onLoggedOut');
 var $onLoggedIn = $('.onLoggedIn');
 var $login = $(".login");
 var $register = $(".register");
+var $resetPassword = $(".resetPassword");
 
-toggleContentBasedOnLogin();
+var $email = $('.onLoggedOut input[type="email"]');
+var $password = $('.onLoggedOut input[type="password"]');
 
-$(".login button").click(function () {
-  $register.removeClass("hidden");
-  $login.addClass("hidden");
-});
 
-$(".register input[type='button']").click(function () {
-  $register.addClass("hidden");
-  $login.removeClass("hidden");
-  event.preventDefault();
-});
+// toggleContentBasedOnLogin();
+
+// $(".login button").click(function () {
+//   $register.removeClass("hidden");
+//   $login.addClass("hidden");
+// });
+
+// $(".register input[type='button']").click(function () {
+//   $register.addClass("hidden");
+//   $login.removeClass("hidden");
+//   event.preventDefault();
+// });
+
 
 $(".onLoggedIn button").click(function () {
   fb.unauth();
-  toggleContentBasedOnLogin();
+  // toggleContentBasedOnLogin();
 });
 
-$(".login form").submit(function () {
-  var $email = $('.login input[type="email"]');
-  var $password = $('.login input[type="password"]');
-
+$(".onLoggedOut form").submit(function () {
   fb.authWithPassword({
     email: $email.val(),
     password: $password.val()
@@ -35,7 +38,7 @@ $(".login form").submit(function () {
     if (err) {
       alert(err.toString());
     } else {
-      toggleContentBasedOnLogin();
+      // toggleContentBasedOnLogin();
       $email.val('');
       $password.val('');
       $.ajax({
@@ -49,52 +52,79 @@ $(".login form").submit(function () {
       $('.onLoggedIn h1').text(`Hello ${authData.password.email}`);
     }
   });
+  debugger;
   event.preventDefault();
 });
 
-$(".register form").submit(function () {
-  var $email = $('.register input[type="email"]');
-  var $password = $('.register input[type="password"]');
-  var $passwordConfirm = $('.confirm');
+$register.click(function () {
+  fb.createUser({
+    email: $email.val(),
+    password: $password.val()
+  }, function (err, authData) {
+    if (err) {
+      alert(err.toString());
+    } else {
+      fb.authWithPassword({
+        email: $email.val(),
+        password: $password.val()
+      }, function (err, authData) {
+        if (err) {
+          alert(err.toString());
+        } else {
+          // toggleContentBasedOnLogin();
+          $email.val('');
+          $password.val('');
+          alert('Welcome ' + authData.password.email);
+        }
+      });
+    }
+  });
+  event.preventDefault();
+})
 
-  if ($password.val() !== $passwordConfirm.val()) {
-    alert("Passwords do not match");
-  } else {
-    fb.createUser({
-      email: $email.val(),
-      password: $password.val()
-    }, function (err, authData) {
-      if (err) {
-        alert(err.toString());
-      } else {
-        fb.authWithPassword({
-          email: $email.val(),
-          password: $password.val()
-        }, function (err, authData) {
-          if (err) {
-            alert(err.toString());
-          } else {
-            toggleContentBasedOnLogin();
-            $email.val('');
-            $password.val('');
-            alert('Welcome ' + authData.password.email);
-          }
-        });
-      }
-    });
-    event.preventDefault();
-  }
-});
+// $(".register").submit(function () {
+//   var $email = $('.register input[type="email"]');
+//   var $password = $('.register input[type="password"]');
+//   var $passwordConfirm = $('.confirm');
 
-function toggleContentBasedOnLogin() {
-  var authData = fb.getAuth();
-  if (authData) {
-    $onLoggedOut.addClass("hidden");
-    $onLoggedIn.removeClass("hidden");
-  } else {
-    $onLoggedOut.removeClass("hidden");
-    $login.removeClass("hidden");
-    $register.addClass("hidden");
-    $onLoggedIn.addClass("hidden");
-  }
-}
+//   if ($password.val() !== $passwordConfirm.val()) {
+//     alert("Passwords do not match");
+//   } else {
+//     fb.createUser({
+//       email: $email.val(),
+//       password: $password.val()
+//     }, function (err, authData) {
+//       if (err) {
+//         alert(err.toString());
+//       } else {
+//         fb.authWithPassword({
+//           email: $email.val(),
+//           password: $password.val()
+//         }, function (err, authData) {
+//           if (err) {
+//             alert(err.toString());
+//           } else {
+//             toggleContentBasedOnLogin();
+//             $email.val('');
+//             $password.val('');
+//             alert('Welcome ' + authData.password.email);
+//           }
+//         });
+//       }
+//     });
+//     event.preventDefault();
+//   }
+// });
+
+// function toggleContentBasedOnLogin() {
+//   var authData = fb.getAuth();
+//   if (authData) {
+//     $onLoggedOut.addClass("hidden");
+//     $onLoggedIn.removeClass("hidden");
+//   } else {
+//     $onLoggedOut.removeClass("hidden");
+//     $login.removeClass("hidden");
+//     $register.addClass("hidden");
+//     $onLoggedIn.addClass("hidden");
+//   }
+// }

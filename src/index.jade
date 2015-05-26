@@ -2,21 +2,21 @@ extends ./_layout
 
 block content
     .onLoggedOut
-      .login
-        h2 Login
-        button Register
-        form
-          input(type="email" placeholder="email" required)
-          input(type="password" placeholder="password" required)
-          input(type="submit" value="Login")
-      .register
-        h2 Register
-        form
-          input(type="email" placeholder="email" required)
-          input(type="password" placeholder="password" required)
-          input.confirm(type="password" placeholder="confirm password" required)
-          input(type="button" value="Back")
-          input(type="submit" value="Sign Up")
+      h2 Log in
+      form
+        input(type="email" placeholder="email" required)
+        input(type="password" placeholder="password" required)
+        input.register(type="button" value="Register")
+        input.login(type="submit" value="Log in")
+        input.resetPassword(type="button" value="Reset Password")
+      //- .register
+      //-   h2 Register
+      //-   form
+      //-     input(type="email" placeholder="email" required)
+      //-     input(type="password" placeholder="password" required)
+      //-     input.confirm(type="password" placeholder="confirm password" required)
+      //-     input.btn(type="button" value="Back")
+      //-     input.btn(type="submit" value="Sign Up")
     .onLoggedIn
       h1 Hello
-      button Logout
+      button.btn Logout
